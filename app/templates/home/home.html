@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Review Prediction</title>
+</head>
+<body>
+    <div class="main">
+        <header>
+            <h1>Sneaker Review Prediction</h1>
+        </header>
+        <style>
+        body {
+            background-image: url('https://cdn.pixabay.com/photo/2014/09/03/20/15/shoes-434918_1280.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Ensure the page takes up at least the full viewport height */
+            margin: 0; /* Remove default margin */
+            background-color: #f2f2f2; /* Set a background color */
+        }
+
+        .comment {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: red;
+            text-shadow: 3px 3px 0 black;
+        }
+        </style>
+        <div class="comment">
+            <form method="post" action="{% url 'predict_sentiment' %}">
+                {% csrf_token %}
+                <label for="review_text">Enter your review:</label>
+                <textarea name="review_text" id="review_text" rows="4" cols="50" required></textarea>
+                <br>
+                <label for="rating">Rate the product (1-5):</label>
+                <input type="number" name="rating" id="rating" min="1" max="5" required>
+                <br>
+                <input type="submit" value="Predict Sentiment">
+            </form>
+            {% if sentiment %}
+            <div class = "sentiment-result">
+                <h2>Predicted Sentiment:</h2>
+                <p >{{ sentiment }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
