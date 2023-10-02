@@ -11,12 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@3
-        with:
-          python-version: '3.10'
+        uses: actions/checkout@3
 
       - name: Install dependencies
         run: |
