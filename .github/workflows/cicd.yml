@@ -23,8 +23,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run tests
+        working-directory: app
         run: |
-          python app/manage.py test
+          python manage.py test
 
       - name: Build application
         run: |
