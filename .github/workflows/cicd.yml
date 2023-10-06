@@ -39,7 +39,7 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         env:
-          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_OWNER: ${{ github.repository_owner | lower }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
