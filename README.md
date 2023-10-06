@@ -1,3 +1,3 @@
-![image](Screenshots (35))
+![image](Screenshots (35).png)
 
 # SemesterProject
