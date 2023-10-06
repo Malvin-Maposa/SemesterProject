@@ -38,6 +38,9 @@ jobs:
           docker build -t my-api-image .
 
       - name: Push Docker image to GitHub Container Registry
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker tag my-api-image ghcr.io/${{ github.repository_owner }}/my-api-image:${{ github.sha }}
