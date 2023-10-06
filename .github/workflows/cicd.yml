@@ -39,12 +39,13 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         env:
-          REPO_OWNER: ${{ github.repository_owner | lower }}
+          REPO_OWNER: ${{ github.repository_owner }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker tag my-api-image ghcr.io/$REPO_OWNER/my-api-image:$IMAGE_TAG
-          docker push ghcr.io/$REPO_OWNER/my-api-image:$IMAGE_TAG
+          REPO_OWNER_LOWER=$(echo $REPO_OWNER | tr '[:upper:]' '[:lower:]')
+          docker tag my-api-image ghcr.io/$REPO_OWNER_LOWER/my-api-image:$IMAGE_TAG
+          docker push ghcr.io/$REPO_OWNER_LOWER/my-api-image:$IMAGE_TAG
 
       - name: Deploy to AWS ECS
         run: |
