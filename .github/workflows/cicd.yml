@@ -43,8 +43,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker tag my-api-image ghcr.io/${{ github.repository_owner }}/my-api-image:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository_owner }}/my-api-image:${{ github.sha }}
+          docker tag my-api-image ghcr.io/$REPO_OWNER/my-api-image:$IMAGE_TAG
+          docker push ghcr.io/$REPO_OWNER/my-api-image:$IMAGE_TAG
 
       - name: Deploy to AWS ECS
         run: |
