@@ -29,7 +29,7 @@ In addition to the dataset description, several tasks have been performed on thi
 
 # How it works
 
-Provided that django is already installed, and in the 'app' folder/directory.
+Provided that django is already installed, and in the `app` folder/directory.
 You can accomplish the following:
-- running 'python manage.py runserver' will run the html file before using docker or 'docker build -t image-name' and then 'docker-compose up' (outside 'app' directory)
-- if running with docker, take note the url you cick will be '0.0.0.0:8000' simply change it to 'localhost:8000' to view the frontend
+- running 'python manage.py runserver' will run the html file before using docker or 'docker build -t image-name' and then 'docker-compose up' (outside `app` directory)
+- if running with docker, take note the url you cick will be `0.0.0.0:8000` simply change it to 'localhost:8000' to view the frontend
