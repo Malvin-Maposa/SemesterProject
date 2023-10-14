@@ -12,41 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          python-version: '3.10'
+          aws-access-key-id: ${{ secret.AWS_ACCESS_KEY }}
+          aws-secret-access-key: $${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'af-south-1'
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run tests
-        working-directory: app
-        run: |
-          python manage.py test
-
-      - name: Build application
-        working-directory: app
-        run: |
-          python manage.py collectstatic --noinput
-          python manage.py migrate
-
-      - name: Build Docker Image
-        run: |
-          docker build -t my-api-image .
-
-      - name: Push Docker image to GitHub Container Registry
-        env:
-          REPO_OWNER: ${{ github.repository_owner }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          REPO_OWNER_LOWER=$(echo $REPO_OWNER | tr '[:upper:]' '[:lower:]')
-          docker tag my-api-image ghcr.io/$REPO_OWNER_LOWER/my-api-image:$IMAGE_TAG
-          docker push ghcr.io/$REPO_OWNER_LOWER/my-api-image:$IMAGE_TAG
-
-      - name: Deploy to AWS ECS
-        run: |
-          aws ecs update-service --cluster my-cluster2 --service service4 --force-new-deployment
+     
