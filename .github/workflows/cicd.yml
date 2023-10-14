@@ -32,6 +32,23 @@ jobs:
           REPOSITORY: project-repo
         run: |
           docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >>GITHUB_OUTPUT
+
+      - name: New Image ID 
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-taskdefinition@v1
+        with: 
+          task-definition: task_definition.json
+          container-name: malapp
+          image: ${{ steps.build-image.outputs.image }}
+      - name: Deplot task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: my_service2
+          cluster: malCluster
+          wait-for-service-stability: true
           
         
 
